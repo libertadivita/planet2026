@@ -10,6 +10,8 @@ mongoose.connect('mongodb://localhost/planet');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var planetsRouter = require('./routes/planets');
+
 var app = express();
 
 // view engine setup
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/planets', planetsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
