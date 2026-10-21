@@ -1,13 +1,17 @@
 ﻿const mongoose = require('mongoose');
-
-// Подключаемся к базе данных planet
 mongoose.connect('mongodb://127.0.0.1:27017/planet');
 
-// Создаём модель Planet с полем name
-const Planet = mongoose.model('Planet', { name: String });
+// Создаём схему
+var schema = mongoose.Schema({ name: String });
 
-// Создаём экземпляр модели
+// Добавляем метод в схему
+schema.methods.info = function() {
+  console.log(this.name + " — планета Солнечной системы");
+}
+
+// Создаём модель на основе схемы
+const Planet = mongoose.model('Planet', schema);
+
+// Создаём экземпляр и сохраняем
 const mars = new Planet({ name: 'Плутон' });
-
-// Сохраняем в базу
-mars.save().then(() => console.log('Планета сохранена!'));
+mars.save().then(() => mars.info());
