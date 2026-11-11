@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/planet');
+const { MongoStore } = require('connect-mongo');
+
 
 var session = require("express-session");
 
@@ -32,7 +34,11 @@ app.use(session({
   cookie: { maxAge: 60 * 1000 }, 
   proxy: true,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: MongoStore.create
+  ({ 
+    mongoUrl: 'mongodb://localhost/planet' 
+  })
 }));
 
 app.use('/', indexRouter);
